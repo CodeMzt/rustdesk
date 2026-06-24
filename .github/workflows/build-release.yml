@@ -27,11 +27,13 @@ jobs:
         include:
           - target: aarch64-linux-android
             abi: arm64-v8a
+            flutter-platform: android-arm64
             rust-target: aarch64-linux-android
             ndk-script: ndk_arm64.sh
             ndk-lib: aarch64-linux-android
           - target: armv7-linux-androideabi
             abi: armeabi-v7a
+            flutter-platform: android-arm
             rust-target: armv7-linux-androideabi
             ndk-script: ndk_arm.sh
             ndk-lib: arm-linux-androideabi
@@ -137,7 +139,7 @@ jobs:
           pushd flutter
           cp ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/${{ matrix.ndk-lib }}/libc++_shared.so \
              ./android/app/src/main/jniLibs/${{ matrix.abi }}/
-          flutter build apk --release --target-platform android-${{ matrix.abi }} --split-per-abi
+          flutter build apk --release --target-platform ${{ matrix.flutter-platform }} --split-per-abi
           mkdir -p ../signed-apk
           mv build/app/outputs/flutter-apk/app-${{ matrix.abi }}-release.apk \
              ../signed-apk/connect-${{ matrix.abi }}.apk
